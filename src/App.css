@@ -1,38 +1,188 @@
+@font-face {
+    font-family: PixelCowboy;
+    src: url('../public/fonts/PixelCowboy.otf');
+}
+
+* {
+    font-family: PixelCowboy, "Pixelify Sans", sans-serif;
+    font-optical-sizing: auto;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6, p, span, a, li, dd, dt, blockquote, th, td, input, textarea, label {
+    transform: scaleY(1.1);
+}
+
+.target-element {
+    border: 2px red solid;
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    top: 150px;
+}
+
 .App {
-  text-align: center;
+    text-align: center;
+    background-image: url('../public/bg.png');
+    /* background-repeat: repeat;
+    background-size: 50px 50px; */
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-color: rgb(26, 105, 26); */
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App h1 {
+    margin-top: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.game-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 100vh;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.result-container {
+    position: relative;
+    top: 36vh;
+    
+}
+.result-container #resultText {
+    font-size: 30px;
+    padding: 0;
+    margin: 0;
+    color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.buttons {
+    display: flex;
+    justify-content: center;
+    /* gap: 10px; */
+    position: relative;
+    top: 35vh;
+    text-align: center;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.buttons button, #startButton {
+    background-image: url('../public/button.png');
+    height: 250px;
+    width: 250px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: transparent;
+    border: none;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 13px;
+    cursor: pointer;
+    border-radius: 2500px;
+}
+
+#startButton {
+    display: none;
+    position: absolute;
+    left: 340px;
+    top: 40vh;
+    z-index: 20;
+}
+
+#muteButton {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 75px;
+    height: 75px;
+    image-rendering: pixelated;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: center;
+
+    clip-path: polygon(
+       0px 8px,
+       4px 8px,
+       4px 4px,
+       8px 4px,
+       8px 0px,
+       calc(100% - 8px) 0px,
+       calc(100% - 8px) 4px,
+       calc(100% - 4px) 4px,
+       calc(100% - 4px) 8px,
+       100% 8px,
+       100% calc(100% - 8px),
+       calc(100% - 4px) calc(100% - 8px),
+       calc(100% - 4px) calc(100% - 4px),
+       calc(100% - 8px) calc(100% - 4px),
+       calc(100% - 8px) 100%,
+       8px 100%,
+       8px calc(100% - 4px),
+       4px calc(100% - 4px),
+       4px calc(100% - 8px),
+       0px calc(100% - 8px)
+     );
+}
+
+#muteButton img {
+    
+    width: 50px;
+    height: 50px;
+
+}
+
+#dealer-area,
+#player-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+}
+
+#dealer-area h3
+{
+    color: white;
+    position: absolute;
+    top: 265px;
+    font-weight: lighter;
+    font-size: 20px;
+}
+
+#player-area h3
+{
+    color: white;
+    position: absolute;
+    bottom: 265px;
+    font-weight: lighter;
+    font-size: 20px;
+}
+
+#dealer-area {
+    position: absolute;
+    top: 0;
+    margin-top: 20px;
+}
+
+#player-area {
+    position: absolute;
+    bottom: 0;
+    margin-bottom: 20px;
+}
+
+.hand-title {
+    margin-bottom: 10px;
 }

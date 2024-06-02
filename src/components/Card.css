@@ -1,0 +1,53 @@
+.card-container {
+    perspective: 1000px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: margin 0.3s ease-out, padding 0.3s ease-out, flex 0.3s ease-out;
+}
+
+.card {
+    box-shadow: 2px 10px 20px rgba(0, 0, 0, 1);
+    transition: transform 0.6s ease, box-shadow 0.1s ease;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    width: 100%;
+}
+
+.card__face {
+    position: absolute;
+    width: inherit;
+    backface-visibility: hidden;
+}
+
+.card__face--front {
+    transition: transform 0.6s ease;
+    transform: rotateY(0deg);
+}
+
+.card__face--back {
+    transition: transform 0.6s ease;
+    transform: rotateY(180deg);
+}
+
+.card.flipped .card__face--front {
+    transition: transform 0.6s ease;
+    transform: rotateY(-180deg);
+}
+
+.card.flipped .card__face--back {
+    transition: transform 0.6s ease;
+    transform: rotateY(0deg);
+}
+
+.card__face img {
+    transition: transform 0.2s ease;
+    width: 200px;
+    margin: 10px;
+    image-rendering: pixelated;
+}
+
+#player-area .hand .hand-cards .card .card__face {
+    bottom: 0;
+}

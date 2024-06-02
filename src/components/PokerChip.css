@@ -1,0 +1,6 @@
+.poker-chip {
+    width: 220px;
+    position: absolute;
+    bottom: 0;
+    z-index: 1;
+}
