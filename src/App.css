@@ -14,10 +14,12 @@ body {
     padding: 0;
     width: 100%;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, p, span, a, li, dd, dt, blockquote, th, td, input, textarea, label {
-    transform: scaleY(1.1);
+    transform: scaleY(1.15);
+    text-shadow: 0px 2px 5px black;
 }
 
 .target-element {
@@ -31,8 +33,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, li, dd, dt, blockquote, th, td, input, texta
 .App {
     text-align: center;
     background-image: url('../public/bg.png');
-    /* background-repeat: repeat;
-    background-size: 50px 50px; */
+    filter: contrast(110%);
     background-repeat: no-repeat;
     background-size: cover;
     /* background-color: rgb(26, 105, 26); */
@@ -44,6 +45,26 @@ h1, h2, h3, h4, h5, h6, p, span, a, li, dd, dt, blockquote, th, td, input, texta
 
 .App h1 {
     margin-top: 0;
+}
+
+
+#startScreenButton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+    background-image: url('../public/bg.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    transition: opacity 1s ease, visibility 1s ease;
+    opacity: 1;
+    visibility: visible;
+    color: white;
+    font-size: 30px;
+    cursor: pointer;
+    border: none;
 }
 
 .game-area {
@@ -95,11 +116,13 @@ h1, h2, h3, h4, h5, h6, p, span, a, li, dd, dt, blockquote, th, td, input, texta
 }
 
 #startButton {
-    display: none;
+    /* display: none; */
     position: absolute;
     left: 340px;
     top: 40vh;
     z-index: 20;
+    transform: translateX(-75vw);
+    transition: transform 0.6s ease;
 }
 
 #muteButton {
@@ -113,7 +136,7 @@ h1, h2, h3, h4, h5, h6, p, span, a, li, dd, dt, blockquote, th, td, input, texta
     align-items: center;
     justify-content: center;
     vertical-align: center;
-
+    z-index: 1000;
     clip-path: polygon(
        0px 8px,
        4px 8px,

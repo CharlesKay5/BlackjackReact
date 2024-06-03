@@ -17,8 +17,10 @@
 
 .card__face {
     position: absolute;
+    transition: transform 0.6s ease;
     width: inherit;
     backface-visibility: hidden;
+    filter: contrast(110%);
 }
 
 .card__face--front {
@@ -49,5 +51,6 @@
 }
 
 #player-area .hand .hand-cards .card .card__face {
+    transition: transform 0.6s ease;
     bottom: 0;
 }

@@ -4,8 +4,6 @@ import PokerChip from './components/PokerChip';
 import './App.css';
 
 // TODO
-// SLIDE IN/OUT START BUTTON
-// DONT ALLOW HIT/STAND DURING ANIMATION
 // ADD DOUBLE DOWN/SPLIT BUTTONS
 // ADD BETTING
 
@@ -15,6 +13,8 @@ function App() {
   const [deck, setDeck] = useState(createDeck());
   const [playFinished, setPlayFinished] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
+  const [firstGame, setFirstGame] = useState(true);
+  const [allowPlay, setAllowPlay] = useState(true);
 
   useEffect(() => {
     if (playFinished) {
@@ -31,9 +31,9 @@ function App() {
     }
   }, [playFinished, dealerHand, playerHand]);
 
-  useEffect(() => {
-    initialDeal();
-  }, []);
+  // useEffect(() => {
+  //   initialDeal();
+  // }, []);
 
   useEffect(() => {
     if (calculateHandValue(playerHand) === 21) {
@@ -106,10 +106,10 @@ function App() {
     playerValueText.innerText = '0';
     dealerValueText.innerText = '0';
     setPlayFinished(false);
-    setDealerHand([]);
-    setPlayerHand([]);
     let startButton = document.getElementById('startButton');
-    startButton.style.display = 'none';
+    startButton.style.transform = `translateX(-75vw)`;
+    await new Promise(resolve => setTimeout(resolve, 600));
+    // startButton.style.display = 'none';
     let resultText = document.getElementById('resultText');
     resultText.innerText = "Let's Play Blackjack!";
 
@@ -138,12 +138,10 @@ function App() {
 
   }
 
-
-
-
   // Hit function
   async function hit() {
     if (playFinished) return;
+    setAllowPlay(false);
 
     let newDeck = [...deck];
     let newPlayerHand = [...playerHand, newDeck.pop()];
@@ -156,6 +154,7 @@ function App() {
     setTimeout(() => {
       let playerValueText = document.getElementById('playerValue');
       playerValueText.innerText = calculateHandValue(newPlayerHand);
+      setAllowPlay(true);
     }, 1250);
 
     if (calculateHandValue(newPlayerHand) > 21) {
@@ -163,13 +162,16 @@ function App() {
         setPlayFinished(true);
       }, 1250);
     } else if (calculateHandValue(newPlayerHand) === 21) {
+      setAllowPlay(false);
       stand();
+      setAllowPlay(true);
     }
   }
 
 
   async function stand() {
     if (playFinished) return;
+    setAllowPlay(false);
 
     let newDeck = [...deck];
     let newDealerHand = [...dealerHand];
@@ -204,6 +206,7 @@ function App() {
     setPlayFinished(true);
 
     determineWinner(playerHand, newDealerHand);
+    setAllowPlay(true);
   }
 
   function hasSoftAce(hand) {
@@ -265,17 +268,25 @@ function App() {
 
     await new Promise(resolve => setTimeout(resolve, 1000));
     let startButton = document.getElementById('startButton');
-    startButton.style.display = 'block';
-
-    // const dealerSecondCard = dealerHand[1];
-    // dealerSecondCard.initiallyFlipped = false;
-    // console.log(dealerSecondCard);
+    startButton.style.transform = `translateX(0vw)`;
   }
 
   async function startNewGame() {
+    const startScreenButton = document.getElementById('startScreenButton');
+    startScreenButton.style.opacity = '0';
+    startScreenButton.style.visibility = 'hidden';
+    
+    if (firstGame) {
+      const placeholderCard = { rank: '', value: 0, suit: '', initiallyFlipped: true };
+      setPlayerHand([placeholderCard, placeholderCard]);
+      setDealerHand([placeholderCard, placeholderCard]);
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    }
+
     shuffleAnimation();
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise(resolve => setTimeout(resolve, 800));
     initialDeal();
+    setFirstGame(false);
   }
 
   async function shuffleAnimation() {
@@ -286,11 +297,14 @@ function App() {
       }
       else {
         cards[i].style.transform = `translateY(75vh)`;
+        
       }
     }
     await new Promise(resolve => setTimeout(resolve, 1500));
     for (let i = 0; i < cards.length; i++) {
-      cards[i].style.transform = `translateY(0)`;
+      setTimeout(() => {
+        cards[i].style.transform = `translateY(0)`;
+      }, i * 100);
     }
   }
 
@@ -300,6 +314,8 @@ function App() {
 
   function playSound(sound) {
     if (isMuted) { return; }
+
+    sound.volume = 0.1;
     sound.play();
   }
 
@@ -308,6 +324,7 @@ function App() {
       <button id="muteButton" onClick={muteSounds}>
         {isMuted ? <img src="/muted.png" alt="Mute Audio" /> : <img src="/unmuted.png" alt="Mute Audio" />}
       </button>
+      <button id="startScreenButton" onClick={startNewGame}>Start Game!</button>
       <PokerChip id="pokerchip1" />
       <PokerChip id="pokerchip2" />
       <PokerChip id="pokerchip3" />
@@ -328,8 +345,8 @@ function App() {
       </div>
       <button id="startButton" onClick={startNewGame}>NEW<br></br>GAME</button>
       <div className="buttons">
-        <button id="hitButton" onClick={hit}>HIT</button>
-        <button id="standButton" onClick={stand}>STAND</button>
+        <button id="hitButton" onClick={allowPlay ? hit : null}>HIT</button>
+        <button id="standButton" onClick={allowPlay ? stand : null}>STAND</button>
         {/* <button id="resetChipsButton" onClick={resetChips}>Reset Chips</button> */}
         {/* <button id="doubleButton">Double Down</button>
         <button id="splitButton">Split</button> */}
