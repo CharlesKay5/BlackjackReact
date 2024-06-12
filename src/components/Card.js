@@ -46,7 +46,7 @@ function Card({ card, initiallyFlipped }) {
         <div className="card__face card__face--front">
           <img
             className='card__image'
-            src={`/pixel_playing_cards/${card.suit}_${card.rank}.png`}
+            src={`/pixel_playing_cards/${card.suit}_${card.rank.toLowerCase()}.png`}
             alt={`${card.rank} of ${card.suit}`}
           />
         </div>
